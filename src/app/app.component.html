@@ -1,21 +1,166 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="container-fluid">
 
-<router-outlet></router-outlet>
+  <h1>Users List</h1>
+  <input type="button" value="Create User" class="btn btn-default" (click)="addUser()" />
+  <div class="container">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <td>Id</td>
+        <td>First Name</td>
+        <td>Last Name</td>
+        <td>Email</td>
+        <td>Password</td>
+        <td>Building Address</td>
+        <td></td>
+        <td></td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <ng-template [ngTemplateOutlet]="loadTemplate(user)"
+                     [ngTemplateOutletContext]="{ $implicit: user}">
+        </ng-template>
+      </tr>
+      </tbody>
+    </table>
+    <div>{{statusMessage}}</div>
+  </div>
+
+
+  <div class="container">
+    <!--шаблон для чтения-->
+    <ng-template #readOnlyTemplate let-user>
+      <td>{{user.userId}}</td>
+      <td>{{user.userFirstName}}</td>
+      <td>{{user.userLastName}}</td>
+      <td>{{user.userEmail}}</td>
+      <td>{{user.userPassword}}</td>
+      <td><p *ngFor="let el of user.shoppingList">{{el.address}}</p></td>
+      <td>
+        <input type="button" value="Edit" class="btn btn-default" (click)="editUser(user)" />
+      </td>
+      <td>
+        <input type="button" value="Delete" (click)="deleteUser(user)" class="btn btn-danger" />
+      </td>
+      <!--<p>-->
+        <!--{{user.shoppingList.map(a => a.address).toString()}}-->
+      <!--</p>-->
+    </ng-template>
+
+    <!--шаблон для редактирования-->
+    <ng-template #editTemplate>
+      <td>
+        <input type="text" [(ngModel)]="editedUser.userId" class="form-control" />
+      </td>
+      <td>
+        <input type="text" [(ngModel)]="editedUser.userFirstName" class="form-control" />
+      </td>
+      <td>
+        <input type="text" [(ngModel)]="editedUser.userLastName" class="form-control" />
+      </td>
+      <td>
+        <input type="text" [(ngModel)]="editedUser.userEmail" class="form-control" />
+      </td>
+      <td>
+        <input type="text" [(ngModel)]="editedUser.userPassword" class="form-control" />
+      </td>
+      <td>
+        <ng-select
+        [items]="lists"
+        bindLabel="address"
+        [(ngModel)]="editedUser.shoppingList"
+        [multiple]="true"
+        placeholder="No products selected">
+        </ng-select>
+        <p>
+        Selected : {{editedUser.shoppingList | json}}
+        </p>
+      </td>
+      <td>
+        <input type="button" value="Сохранить" (click)="saveUser()" class="btn btn-success" />
+      </td>
+      <td>
+        <input type="button" value="Отмена" (click)="cancel()" class="btn btn-warning" />
+      </td>
+    </ng-template>
+  </div>
+
+</div>
+
+
+<!--<div class="container-fluid">-->
+
+  <!--<h1>Products List</h1>-->
+  <!--<input type="button" value="Add Purchase" class="btn btn-default" (click)="addPurchase()" />-->
+  <!--<div class="container">-->
+    <!--<table class="table table-striped">-->
+      <!--<thead>-->
+      <!--<tr>-->
+        <!--<td>Id</td>-->
+        <!--<td>Purchase Name</td>-->
+        <!--<td>Purchase Address</td>-->
+        <!--<td>Product Name</td>-->
+        <!--<td></td>-->
+        <!--<td></td>-->
+      <!--</tr>-->
+      <!--</thead>-->
+      <!--<tbody>-->
+      <!--<tr *ngFor="let purc of purchases">-->
+        <!--<ng-template [ngTemplateOutlet]="loadPurchaseTemplate(purc)"-->
+                     <!--[ngTemplateOutletContext]="{ $implicit: purc}">-->
+        <!--</ng-template>-->
+      <!--</tr>-->
+      <!--</tbody>-->
+    <!--</table>-->
+  <!--</div>-->
+
+
+  <!--<div class="container">-->
+    <!--&lt;!&ndash;шаблон для чтения&ndash;&gt;-->
+    <!--<ng-template #readOnlyPurchaseTemplate let-purchase>-->
+      <!--<td>{{purchase.purchaseId}}</td>-->
+      <!--<td>{{purchase.purchaseName}}</td>-->
+      <!--<td>{{purchase.purchaseAddress}}</td>-->
+      <!--<td>{{purchase.productDescription.productName}}</td>-->
+      <!--<td>-->
+        <!--<input type="button" value="Edit" class="btn btn-default" (click)="editPurchase(purchase)" />-->
+      <!--</td>-->
+      <!--<td>-->
+        <!--<input type="button" value="Delete" (click)="deletePurchase(purchase)" class="btn btn-danger" />-->
+      <!--</td>-->
+    <!--</ng-template>-->
+
+    <!--&lt;!&ndash;шаблон для редактирования&ndash;&gt;-->
+    <!--<ng-template #editPurchaseTemplate>-->
+      <!--<td>-->
+        <!--<input type="text" placeholder="Enter Purchase Id" [(ngModel)]="editedPurchase.purchaseId" class="form-control" />-->
+      <!--</td>-->
+      <!--<td>-->
+        <!--<input type="text" placeholder="Enter Purchase Name" [(ngModel)]="editedPurchase.purchaseName" class="form-control" />-->
+      <!--</td>-->
+      <!--<td>-->
+        <!--<input type="text" placeholder="Enter Purchase Address" [(ngModel)]="editedPurchase.purchaseAddress" class="form-control" />-->
+      <!--</td>-->
+      <!--<td>-->
+        <!--<ng-select-->
+                   <!--[items]="products"-->
+                   <!--bindLabel="productName"-->
+                   <!--[(ngModel)]="editedPurchase.productDescription"-->
+                   <!--[multiple]="true"-->
+                   <!--placeholder="No products selected">-->
+        <!--</ng-select>-->
+        <!--<p>-->
+          <!--Selected : {{editedPurchase.productDescription | json}}-->
+        <!--</p>-->
+      <!--</td>-->
+      <!--<td>-->
+        <!--<input type="button" value="Сохранить" (click)="savePurchase()" class="btn btn-success" />-->
+      <!--</td>-->
+      <!--<td>-->
+        <!--<input type="button" value="Отмена" (click)="cancelAction()" class="btn btn-warning" />-->
+      <!--</td>-->
+    <!--</ng-template>-->
+  <!--</div>-->
+
+<!--</div>-->

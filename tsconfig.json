@@ -11,6 +11,8 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es5",
+    "suppressImplicitAnyIndexErrors": true,
+    "noImplicitAny": true,
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -18,5 +20,8 @@
       "es2018",
       "dom"
     ]
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

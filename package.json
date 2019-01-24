@@ -1,13 +1,9 @@
 {
   "name": "my-app",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "dev": "webpack-dev-server --hot --open",
+    "build": "webpack"
   },
   "private": true,
   "dependencies": {
@@ -19,10 +15,13 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
-    "core-js": "^2.5.4",
-    "rxjs": "~6.3.3",
+    "@ng-bootstrap/ng-bootstrap": "^4.0.1",
+    "@ng-select/ng-select": "^2.14.0",
+    "core-js": "^2.5.7",
+    "ng2-select": "latest",
+    "rxjs": "^6.3.3",
     "tslib": "^1.9.0",
-    "zone.js": "~0.8.26"
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.12.0",
@@ -43,6 +42,13 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
-    "typescript": "~3.2.2"
+    "typescript": "~3.2.2",
+    "webpack": "^4.21.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9",
+    "angular2-template-loader": "^0.6.2",
+    "awesome-typescript-loader": "^5.2.1",
+    "uglifyjs-webpack-plugin": "^2.0.0",
+    "html-loader": "^0.5.1"
   }
 }
